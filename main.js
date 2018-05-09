@@ -26,19 +26,6 @@ const setCellState = (xVal, yVal, state) => {
      *      Setup functions
      */
 
-// gameplay
-// const applyMovesToGameByPlayer = (player , moves ,game) => {
-//     for (let move of moves) {
-//         recordMove(game, move[0], move[1], player);
-//     }
-// }
-
-// const recordMove = (game, column, row, state) => {
-//     if ( game[column].length < 6 ) {
-//         game[column][row] = state;
-//     }
-// }
-
 const move = (columnId) => {
     let player = getTurn();
     let index = parseInt(columnId.split("").reverse()[0]);
@@ -159,51 +146,7 @@ const linearCheck = (x,y,game) => {
                 }
             }
         }
-
-
-        //    if ( x + steps[step].down[0] > 0 ) {
-
-        // for (let i = 1; ; i++ ){
-        //     console.log(step + " :" + i);
-        //     console.log((x + (steps[step].up[0]*i)) <= 0 );
-        //     console.log((x + (steps[step].up[0]*i)) <= 0 );
-
-        //     if (i > 7){
-        //         break;
-        //     } else {
-
-        //         if ( ((x + (steps[step].down[0]*i)) < 0) ){
-        //             console.log("down if one");
-        //         } else if (currentGame[ x + (steps[step].down[0]*i) ][ y + (steps[step].down[1]*i) ] != 'undefined') {
-        //             if (currentGame[ x + (steps[step].down[0]*i) ][ y + (steps[step].down[1]*i) ] == 'red' ) {
-        //                 redTotals[step]++;
-        //             } else if (currentGame[ x + (steps[step].down[0]*i) ][ y + (steps[step].down[1]*i) == 'black'] ) {
-        //                 blackTotals[step]++;
-        //             }
-        //             console.log("down if two");
-        //         } else {
-        //             console.log("down if three");
-        //         }
-
-
-        //         if ( ((x + (steps[step].up[0]*i)) <= 0) ){
-        //             console.log("up if one");
-        //         } else if (currentGame[ x + (steps[step].up[0]*i) ][ y + (steps[step].up[1]*i) ] != 'undefined') {
-        //             if (currentGame[ x + (steps[step].up[0]*i) ][ y + (steps[step].up[1]*i) ] == 'red' ) {
-        //                 redTotals[step]++;
-        //             } else if (currentGame[ x + (steps[step].up[0]*i) ][ y + (steps[step].up[1]*i) == 'black'] ) {
-        //                 blackTotals[step]++;
-        //             }
-        //             console.log("up if two");
-        //         } else {
-        //             console.log("up if three");
-        //         }
-
-
-        //     }
-        // }
     }
-    //return [ blackTotals, redTotals];
 }
 
 const testForWin = ( movesArray ) => {}
