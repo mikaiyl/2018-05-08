@@ -1,0 +1,96 @@
+/* Globals */
+
+[draggable=true] {
+    cursor: move;
+}
+
+html, body {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Classes */
+.coin {
+    z-index: 6;
+}
+
+.cell[data-state='unset'] {
+    background-color: gray;
+}
+
+.cell[data-state='red'] {
+    background-color: red;
+}
+
+.cell[data-state='black'] {
+    background-color: black;
+}
+
+
+.contentLayer {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.column {
+    display: flex;
+    flex-flow: column-reverse wrap;
+
+    border: 3px;
+    border-color: black;
+
+    height: 100%;
+    width: calc(100% / 7);
+}
+
+.cell {
+    height: calc(100% / 6);
+    width: 100%;
+
+
+    border-radius: 50%;
+    background-color: #333;
+}
+
+/* Identified */
+
+#backgroundLayer {
+    position: absolute;
+    background-color: white;
+    z-index: 0;
+
+    height: 600px;
+    width: 700px;
+}
+
+#coinLayer {
+    position: absolute;
+    background-color: blue;
+    z-index: 4;
+
+    height: 600px;
+    width: 700px;
+}
+
+#gridLayer {
+    position: absolute;
+    background-color: #666;
+    z-index: 2;
+
+    height: 600px;
+    width: 700px;
+}
+
+#container {
+    display: flex;
+    flex-flow: row wrap;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    width: 100vw;
+}
+
+
+
+/* Others */
