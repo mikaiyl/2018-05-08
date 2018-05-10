@@ -88,7 +88,7 @@ const playerWins = (player) => {
     gameNum++;
 
     let p = document.createElement("p");
-    p.textContent = "The " + player + "player wins game #" + gameNum + "!";
+    p.textContent = player + " wins game #" + gameNum + "!";
 
     footer.appendChild(p);
     footer.style.zIndex = 3;
