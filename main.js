@@ -1,38 +1,39 @@
+
     /*
      *      Includes
      */
 
-// track moves as [x, y] pairs
-const moves = {
-    black: [],
-    red: []
-};
+const gameOver = false;
+const log = (...args) => ( console.log(...args), args[0]);
 
 // track turns
 const turn = {
     value: ["red", "black"],
-    toggle: () => { turn.value.reverse() }
+    toggle: () => { turn.value.reverse() },
+    getCurrentPlayer: () => turn.value[0],
+    getLastPlayer: () => turn.value[1],
 }
-const getTurn = () => {
-    return turn.value[0];
-}
-// get elements
+
+const footer = document.getElementById("footer");
+const button = document.createElement("button");
+      button.textContent = "Reset Game";
+      footer.appendChild(button);
+
 const columns = document.getElementsByClassName("column");
 const setCellState = (xVal, yVal, state) => {
     columns[xVal].getElementsByClassName("row-" + yVal)[0].dataset.state = state;
 }
 
     /*
-     *      Setup functions
-     */
+    *      Setup functions
+    */
 
-const move = (columnId) => {
-    let player = getTurn();
+const placeCoin = (columnId) => {
+    let player = turn.getCurrentPlayer();
     let index = parseInt(columnId.split("").reverse()[0]);
-    // is move valid?
+    // is placeCoin valid?
     if ( currentGame[index].length < 6 ) {
         currentGame[index].push(player);
-        moves[player].push([index, currentGame[index].length-1]);
         turn.toggle();
     }
 
@@ -40,14 +41,11 @@ const move = (columnId) => {
     return [index, currentGame[index].length-1];
 }
 
-///// For all columns when clicked add a coin
-// then change the turn and add to the play arrays
-const setupColumns = () => {
+const runGame = () => {
     for (let column of columns) {
         column.addEventListener("click", () => {
-            let pos = move(column.id);
-            console.log(pos);
-            linearCheck(pos[0],pos[1],currentGame);
+            let pos = placeCoin(column.id);
+            findLines(pos[0],pos[1],currentGame);
         });
     }
 }
@@ -64,6 +62,9 @@ const createGameContent = () => {
 
 var currentGame = createGameContent();
 
+    /*
+    *  Show the game in the browser */
+
 const renderGameContent = (gameArray) => {
     for (let k in gameArray) {
         for (let l in gameArray[k]){
@@ -77,14 +78,27 @@ const resetGame = () => {
     for ( let div of document.getElementsByClassName("cell")) {
         div.dataset.state = "unset";
     }
+
+    document.getElementById("footer").style.zIndex = -3
+}
+button.onclick = resetGame;
+
+const playerWins = (player) => {
+    let p = document.createElement("p");
+    p.textContent = "The " + player + "player wins!";
+
+    footer.appendChild(p);
+    footer.style.zIndex = 3;
+
+    currentGame = createGameContent();
 }
 
 // test win conditions
-const linearCheck = (x,y,game) => {
-    let steps = {
+const findLines = (x,y,game) => {
+    let direction = {
         x_axis: {
-            down: [ -1 , 0 ],
-            up:[ 1 , 0 ]
+            left: [ -1 , 0 ],
+            right:[ 1 , 0 ]
         },           //    -
         y_axis: {
             down: [ 0 , -1 ],
@@ -100,61 +114,46 @@ const linearCheck = (x,y,game) => {
         }          //    \
     }
 
-    let totals = {
-        red: {
-            x_axis: 1,
-            y_axis: 1,
-            deg225_45: 1,
-            deg135_315: 1
-        }, black: {
-            x_axis: 1,
-            y_axis: 1,
-            deg225_45: 1,
-            deg135_315: 1
+    out: for ( let step in direction ) {
+        let totals = {
+            x_axis: 0,
+            y_axis: 0,
+            deg225_45: 0,
+            deg135_315: 0
         }
-    }
 
-    for ( let step in steps ) {
-        for ( let section in steps[step] ) {
-            let stepX = steps[step][section][0];
-            let stepY = steps[step][section][1];
+        for ( let section in direction[step] ) {
+            const stepX = direction[step][section][0];
+            const stepY = direction[step][section][1];
 
-            console.log("124: "+ stepX );
-            if ( stepX + x >= 0  ) {
-                for (let i = 0;  ; i++) {
+            let inSeries = true;
+            for (let i = 1; inSeries == true && i < 4 ; i++) {
+                let x_ = stepX * i + x;
+                let y_ = stepY * i + y;
 
-                    let x_ = stepX * i + x;
-                    let y_ = stepY * i + y;
-
-                    if ( x_ >= 0 && x_ < 7 && y_ >= 0 && y_ < 6 ){
-                        console.log(totals);
-                        if ( i > 4 ) {
-                            break;
-                        } else if ( totals.red[step] > 3 || totals.black[step] > 3 ) {
-                            return getTurn();
-                        } else if ( game[x_][y_] == 'red' ) {
-                            totals.red[step]++;
-                        } else if ( game[x_][y_] == 'black' ) {
-                            totals.black[step]++;
-                        }
-                    } else if ( i > 6 ) {
-                        break;
-                    } else {
-                        console.log("cont...")
-                        continue;
+                if ( game[x_] ){
+                    if ( totals[step] > 2 && game[x][y] == turn.getLastPlayer() ) {
+                        playerWins( turn.getLastPlayer() );
+                        break out;
+                    } else if ( game[x_][y_] == 'undefined' ) {
+                        inSeries = false;
+                    } else if ( game[x_][y_] == turn.getLastPlayer() ) {
+                        totals[step]++;
+                    } else if ( game[x_][y_] == turn.getCurrentPlayer() ) {
+                        inSeries = false;
                     }
+                } else {
+                    inSeries = false;
                 }
             }
         }
     }
 }
 
-const testForWin = ( movesArray ) => {}
-
     /*
-     *      Main
-     */
+    *      Main
+    */
 
 ( () => {
-    setupColumns();
+    runGame();
 })();

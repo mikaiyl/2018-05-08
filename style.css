@@ -64,15 +64,6 @@ html, body {
     width: 700px;
 }
 
-#coinLayer {
-    position: absolute;
-    background-color: blue;
-    z-index: 4;
-
-    height: 600px;
-    width: 700px;
-}
-
 #gridLayer {
     position: absolute;
     background-color: #666;
@@ -91,6 +82,20 @@ html, body {
     width: 100vw;
 }
 
+#footer {
+    display: flex;
+    flex-direction: column;
 
+
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.3);
+
+    height: 600px;
+    width: 700px;
+    z-index: 1;
+
+    align-items: center;
+    justify-content: center;
+}
 
 /* Others */
