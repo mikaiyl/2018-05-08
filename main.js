@@ -3,7 +3,7 @@
      *      Includes
      */
 
-const gameOver = false;
+let gameNum = 0;
 const log = (...args) => ( console.log(...args), args[0]);
 
 // track turns
@@ -84,8 +84,11 @@ const resetGame = () => {
 button.onclick = resetGame;
 
 const playerWins = (player) => {
+
+    gameNum++;
+
     let p = document.createElement("p");
-    p.textContent = "The " + player + "player wins!";
+    p.textContent = "The " + player + "player wins game #" + gameNum + "!";
 
     footer.appendChild(p);
     footer.style.zIndex = 3;
@@ -131,8 +134,10 @@ const findLines = (x,y,game) => {
                 let x_ = stepX * i + x;
                 let y_ = stepY * i + y;
 
-                if ( game[x_] ){
+                if ( game[x_] ) {
+                    debugger;
                     if ( totals[step] > 2 && game[x][y] == turn.getLastPlayer() ) {
+                        console.log(totals);
                         playerWins( turn.getLastPlayer() );
                         break out;
                     } else if ( game[x_][y_] == 'undefined' ) {
@@ -142,8 +147,11 @@ const findLines = (x,y,game) => {
                     } else if ( game[x_][y_] == turn.getCurrentPlayer() ) {
                         inSeries = false;
                     }
+                } else if ( totals[step] > 2 && game[x][y] == turn.getLastPlayer() ) {
+                        playerWins( turn.getLastPlayer() );
+                        break out;
                 } else {
-                    inSeries = false;
+                    break;
                 }
             }
         }
