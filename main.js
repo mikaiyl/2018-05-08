@@ -147,11 +147,11 @@ const findLines = (x,y,game) => {
                     } else if ( game[x_][y_] == turn.getCurrentPlayer() ) {
                         inSeries = false;
                     }
-                } else if ( totals[step] > 2 && game[x][y] == turn.getLastPlayer() ) {
+                }
+
+                if ( totals[step] > 2 && game[x][y] == turn.getLastPlayer() ) {
                         playerWins( turn.getLastPlayer() );
                         break out;
-                } else {
-                    break;
                 }
             }
         }
