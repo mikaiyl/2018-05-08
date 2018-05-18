@@ -140,7 +140,7 @@ const findLines = (x,y,game) => {
                         console.log(totals);
                         playerWins( turn.getLastPlayer() );
                         break out;
-                    } else if ( game[x_][y_] == 'undefined' ) {
+                    } else if ( game[x_][y_] == undefined ) {
                         inSeries = false;
                     } else if ( game[x_][y_] == turn.getLastPlayer() ) {
                         totals[step]++;
